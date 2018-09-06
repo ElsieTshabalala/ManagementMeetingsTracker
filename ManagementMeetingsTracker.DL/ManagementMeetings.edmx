@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ManagementMeetingsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Meeting">
+          <Key>
+            <PropertyRef Name="MeetingId" />
+          </Key>
+          <Property Name="MeetingId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MeetingTypeId" Type="int" Nullable="false" />
+          <Property Name="MeetingNumber" Type="int" />
+          <Property Name="StartDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="MeetingItem">
+          <Key>
+            <PropertyRef Name="MeetingItemId" />
+          </Key>
+          <Property Name="MeetingItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MeetingId" Type="int" Nullable="false" />
+          <Property Name="ActionBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MeetingItemStatusId" Type="int" Nullable="false" />
+          <Property Name="MeetingItem" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="MeetingItemStatus">
+          <Key>
+            <PropertyRef Name="MeetigItemStatusId" />
+          </Key>
+          <Property Name="MeetigItemStatusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MeetingType">
+          <Key>
+            <PropertyRef Name="MeetingTypeId" />
+          </Key>
+          <Property Name="MeetingTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MeetingTypeCode" Type="varchar" MaxLength="50" />
+          <Property Name="MeetingType" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <Association Name="FK_Meeting_MeetingType">
+          <End Role="MeetingType" Type="Self.MeetingType" Multiplicity="1" />
+          <End Role="Meeting" Type="Self.Meeting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MeetingType">
+              <PropertyRef Name="MeetingTypeId" />
+            </Principal>
+            <Dependent Role="Meeting">
+              <PropertyRef Name="MeetingTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MeetingItem_Meeting">
+          <End Role="Meeting" Type="Self.Meeting" Multiplicity="1" />
+          <End Role="MeetingItem" Type="Self.MeetingItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Meeting">
+              <PropertyRef Name="MeetingId" />
+            </Principal>
+            <Dependent Role="MeetingItem">
+              <PropertyRef Name="MeetingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MeetingItem_MeetingItemStatus">
+          <End Role="MeetingItemStatus" Type="Self.MeetingItemStatus" Multiplicity="1" />
+          <End Role="MeetingItem" Type="Self.MeetingItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MeetingItemStatus">
+              <PropertyRef Name="MeetigItemStatusId" />
+            </Principal>
+            <Dependent Role="MeetingItem">
+              <PropertyRef Name="MeetingItemStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ManagementMeetingsModelStoreContainer">
+          <EntitySet Name="Meeting" EntityType="Self.Meeting" Schema="Meeting" store:Type="Tables" />
+          <EntitySet Name="MeetingItem" EntityType="Self.MeetingItem" Schema="Meeting" store:Type="Tables" />
+          <EntitySet Name="MeetingItemStatus" EntityType="Self.MeetingItemStatus" Schema="Meeting" store:Type="Tables" />
+          <EntitySet Name="MeetingType" EntityType="Self.MeetingType" Schema="Meeting" store:Type="Tables" />
+          <AssociationSet Name="FK_Meeting_MeetingType" Association="Self.FK_Meeting_MeetingType">
+            <End Role="MeetingType" EntitySet="MeetingType" />
+            <End Role="Meeting" EntitySet="Meeting" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MeetingItem_Meeting" Association="Self.FK_MeetingItem_Meeting">
+            <End Role="Meeting" EntitySet="Meeting" />
+            <End Role="MeetingItem" EntitySet="MeetingItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MeetingItem_MeetingItemStatus" Association="Self.FK_MeetingItem_MeetingItemStatus">
+            <End Role="MeetingItemStatus" EntitySet="MeetingItemStatus" />
+            <End Role="MeetingItem" EntitySet="MeetingItem" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ManagementMeetingsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ManagementMeetingsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Meetings" EntityType="ManagementMeetingsModel.Meeting" />
+          <EntitySet Name="MeetingItems" EntityType="ManagementMeetingsModel.MeetingItem" />
+          <EntitySet Name="MeetingItemStatus" EntityType="ManagementMeetingsModel.MeetingItemStatu" />
+          <EntitySet Name="MeetingTypes" EntityType="ManagementMeetingsModel.MeetingType" />
+          <AssociationSet Name="FK_Meeting_MeetingType" Association="ManagementMeetingsModel.FK_Meeting_MeetingType">
+            <End Role="MeetingType" EntitySet="MeetingTypes" />
+            <End Role="Meeting" EntitySet="Meetings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MeetingItem_Meeting" Association="ManagementMeetingsModel.FK_MeetingItem_Meeting">
+            <End Role="Meeting" EntitySet="Meetings" />
+            <End Role="MeetingItem" EntitySet="MeetingItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MeetingItem_MeetingItemStatus" Association="ManagementMeetingsModel.FK_MeetingItem_MeetingItemStatus">
+            <End Role="MeetingItemStatu" EntitySet="MeetingItemStatus" />
+            <End Role="MeetingItem" EntitySet="MeetingItems" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Meeting">
+          <Key>
+            <PropertyRef Name="MeetingId" />
+          </Key>
+          <Property Name="MeetingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MeetingTypeId" Type="Int32" Nullable="false" />
+          <Property Name="MeetingNumber" Type="Int32" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="MeetingType" Relationship="ManagementMeetingsModel.FK_Meeting_MeetingType" FromRole="Meeting" ToRole="MeetingType" />
+          <NavigationProperty Name="MeetingItems" Relationship="ManagementMeetingsModel.FK_MeetingItem_Meeting" FromRole="Meeting" ToRole="MeetingItem" />
+        </EntityType>
+        <EntityType Name="MeetingItem">
+          <Key>
+            <PropertyRef Name="MeetingItemId" />
+          </Key>
+          <Property Name="MeetingItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MeetingId" Type="Int32" Nullable="false" />
+          <Property Name="ActionBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MeetingItemStatusId" Type="Int32" Nullable="false" />
+          <Property Name="MeetingItem1" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Meeting" Relationship="ManagementMeetingsModel.FK_MeetingItem_Meeting" FromRole="MeetingItem" ToRole="Meeting" />
+          <NavigationProperty Name="MeetingItemStatu" Relationship="ManagementMeetingsModel.FK_MeetingItem_MeetingItemStatus" FromRole="MeetingItem" ToRole="MeetingItemStatu" />
+        </EntityType>
+        <EntityType Name="MeetingItemStatu">
+          <Key>
+            <PropertyRef Name="MeetigItemStatusId" />
+          </Key>
+          <Property Name="MeetigItemStatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="MeetingItems" Relationship="ManagementMeetingsModel.FK_MeetingItem_MeetingItemStatus" FromRole="MeetingItemStatu" ToRole="MeetingItem" />
+        </EntityType>
+        <EntityType Name="MeetingType">
+          <Key>
+            <PropertyRef Name="MeetingTypeId" />
+          </Key>
+          <Property Name="MeetingTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MeetingTypeCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MeetingType1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Meetings" Relationship="ManagementMeetingsModel.FK_Meeting_MeetingType" FromRole="MeetingType" ToRole="Meeting" />
+        </EntityType>
+        <Association Name="FK_Meeting_MeetingType">
+          <End Type="ManagementMeetingsModel.MeetingType" Role="MeetingType" Multiplicity="1" />
+          <End Type="ManagementMeetingsModel.Meeting" Role="Meeting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MeetingType">
+              <PropertyRef Name="MeetingTypeId" />
+            </Principal>
+            <Dependent Role="Meeting">
+              <PropertyRef Name="MeetingTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MeetingItem_Meeting">
+          <End Type="ManagementMeetingsModel.Meeting" Role="Meeting" Multiplicity="1" />
+          <End Type="ManagementMeetingsModel.MeetingItem" Role="MeetingItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Meeting">
+              <PropertyRef Name="MeetingId" />
+            </Principal>
+            <Dependent Role="MeetingItem">
+              <PropertyRef Name="MeetingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MeetingItem_MeetingItemStatus">
+          <End Type="ManagementMeetingsModel.MeetingItemStatu" Role="MeetingItemStatu" Multiplicity="1" />
+          <End Type="ManagementMeetingsModel.MeetingItem" Role="MeetingItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MeetingItemStatu">
+              <PropertyRef Name="MeetigItemStatusId" />
+            </Principal>
+            <Dependent Role="MeetingItem">
+              <PropertyRef Name="MeetingItemStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ManagementMeetingsModelStoreContainer" CdmEntityContainer="ManagementMeetingsEntities">
+          <EntitySetMapping Name="Meetings">
+            <EntityTypeMapping TypeName="ManagementMeetingsModel.Meeting">
+              <MappingFragment StoreEntitySet="Meeting">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="MeetingNumber" ColumnName="MeetingNumber" />
+                <ScalarProperty Name="MeetingTypeId" ColumnName="MeetingTypeId" />
+                <ScalarProperty Name="MeetingId" ColumnName="MeetingId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MeetingItems">
+            <EntityTypeMapping TypeName="ManagementMeetingsModel.MeetingItem">
+              <MappingFragment StoreEntitySet="MeetingItem">
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="MeetingItem1" ColumnName="MeetingItem" />
+                <ScalarProperty Name="MeetingItemStatusId" ColumnName="MeetingItemStatusId" />
+                <ScalarProperty Name="ActionBy" ColumnName="ActionBy" />
+                <ScalarProperty Name="MeetingId" ColumnName="MeetingId" />
+                <ScalarProperty Name="MeetingItemId" ColumnName="MeetingItemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MeetingItemStatus">
+            <EntityTypeMapping TypeName="ManagementMeetingsModel.MeetingItemStatu">
+              <MappingFragment StoreEntitySet="MeetingItemStatus">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="MeetigItemStatusId" ColumnName="MeetigItemStatusId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MeetingTypes">
+            <EntityTypeMapping TypeName="ManagementMeetingsModel.MeetingType">
+              <MappingFragment StoreEntitySet="MeetingType">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="MeetingType1" ColumnName="MeetingType" />
+                <ScalarProperty Name="MeetingTypeCode" ColumnName="MeetingTypeCode" />
+                <ScalarProperty Name="MeetingTypeId" ColumnName="MeetingTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

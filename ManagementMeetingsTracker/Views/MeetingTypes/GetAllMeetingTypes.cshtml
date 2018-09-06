@@ -1,0 +1,44 @@
+﻿@using ManagementMeetingsTracker.Models
+@using ManagementMeetingsTracker.Resources
+
+
+@model MeetingTypeModel
+
+@{
+    ViewBag.Title = "GetAllMeetingTypess";
+}
+
+<h2>@Labels.MeetingTypes</h2>
+
+<p>
+    @Html.ActionLink(Labels.AddMeetingType, MVC.MeetingType.GetAddMeetingType())
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.MeetingTypeId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MeetingType)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.MeetingTypes)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MeetingTypeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MeetingType)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+    }
+
+</table>

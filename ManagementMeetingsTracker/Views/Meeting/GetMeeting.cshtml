@@ -1,0 +1,94 @@
+﻿@using ManagementMeetingsTracker.Resources;
+
+@model ManagementMeetingsTracker.Models.MeetingModel
+
+@{
+    ViewBag.Title = "GetMeeting";
+}
+
+<div class="container">
+    <h2>@Labels.MeetingDetails</h2>
+
+    <div>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.MeetingType)              
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MeetingType)               
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MeetingDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MeetingDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MeetingTime)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MeetingTime)
+            </dd>
+
+        </dl>
+    </div>
+
+    <div>
+      
+        @Ajax.ActionLink(Labels.AddMeetingItem, MVC.MeetingItem.GetAddEditMeetingItem(Model.MeetingId, null),
+                                 new AjaxOptions
+                                 {
+                                     HttpMethod = "GET",
+                                     InsertionMode = InsertionMode.Replace,
+                                     UpdateTargetId = "modalBody",
+                                     OnComplete = "ShowPopup",
+                                 }, new
+                                 {
+                                     @class = "btn btn-primary btn-md",
+                                     @id = "MeetingItem"
+                                 })
+    </div>
+
+    @{Html.RenderAction(MVC.MeetingItem.GetMeetingItems(Model.MeetingId));}
+        
+
+    <p>
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</div>
+
+@section Scripts{
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        function ShowPopup() {
+
+            $('#myModal #myModalLabel').text('@Labels.EditMeetingItem');
+            $('#myModal').modal('show');
+            $('#Status').trigger("chosen:updated");
+        }
+        
+        $(function () {
+
+            $('body').on('click', '#btnSave', function (e) {
+                
+                $('#frmAddMeetingItem').submit();               
+            });
+
+            $('body').on('click', '#btnSave', function (e) {
+
+                $('#frmAddMeetingItem').submit();
+            });
+
+        });
+        
+    </script>
+
+}

@@ -1,0 +1,55 @@
+﻿@using ManagementMeetingsTracker.Resources;
+
+@model ManagementMeetingsTracker.Models.MeetingItemModel
+
+@using (Html.BeginForm(MVC.MeetingItem.SaveMeetingItem(), FormMethod.Post, new { id = "frmAddMeetingItem" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.MeetingId)
+    @Html.HiddenFor(model => model.MeetingItemId)
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ActionBy, htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.ActionBy, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ActionBy, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MeetingItem, htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.MeetingItem, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MeetingItem, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Remark, htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @if (Model.MeetingItemId > 0)
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.MeetingItemStatusId, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-6">
+                    @Html.DropDownListFor(model => model.MeetingItemStatusId, Model.MeetingItemStatuses, Labels.SelectAnOption, new { @class = "form-control chosen-select" } )
+                    @Html.ValidationMessageFor(model => model.MeetingItemStatusId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+
+    </div>
+}
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+}

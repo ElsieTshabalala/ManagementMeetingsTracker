@@ -1,0 +1,54 @@
+﻿@using ManagementMeetingsTracker.Resources;
+
+@model ManagementMeetingsTracker.Models.MeetingModel
+
+@{
+    ViewBag.Title = "GetAllMeetings";
+}
+
+<h2>@Labels.Meetings</h2>
+
+<p>
+    @Html.ActionLink(Labels.AddMeeting, MVC.Meeting.GetAddMeeting())
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.Label("Meeting")
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MeetingTypeId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MeetingDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MeetingTime)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Meetings)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MeetingCode)
+            </td>
+            <td>                
+                @Html.DisplayFor(modelItem => item.MeetingType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MeetingDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MeetingTime)
+            </td>
+            <td>
+                @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |*@
+                @Html.ActionLink(Labels.Details, MVC.Meeting.GetMeeting(item.MeetingId)) | 
+                @Html.ActionLink(Labels.Print, MVC.Meeting.PrintMeetingMinutes(item.MeetingId))              
+            </td>
+        </tr>
+    }
+
+</table>

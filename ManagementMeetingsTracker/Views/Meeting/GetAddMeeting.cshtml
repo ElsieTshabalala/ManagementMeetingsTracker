@@ -1,0 +1,80 @@
+﻿@using ManagementMeetingsTracker.Resources;
+
+@model ManagementMeetingsTracker.Models.MeetingModel
+
+@{
+    ViewBag.Title = "GetAddMeeting";
+}
+
+<h2>@Labels.AddMeeting</h2>
+
+
+@using (Html.BeginForm(MVC.Meeting.SaveMeeting(), FormMethod.Post, new { }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.MeetingTypeId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(x => x.MeetingTypeId, Model.MeetingTypes, "Select My Type", new { @class = "form-control chosen-select" })
+            @Html.ValidationMessageFor(model => model.MeetingTypeId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.MeetingDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.MeetingDate, new { @class = "form-control", placeholder = Labels.MeetingDate, @Value = "" })
+            @Html.ValidationMessageFor(model => model.MeetingDate)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.MeetingTime, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.MeetingTime, new { @class = "form-control", @Value = "", placeholder = Labels.MeetingTime })
+            @Html.ValidationMessageFor(model => model.MeetingTime, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @*@Html.LabelFor(model => model.MeetingItemStatusId, htmlAttributes: new { @class = "control-label col-md-4" })*@
+        @Html.Label("Previous Meeting", new { @class = "control-label col-md-2" })
+        <div class="col-md-6">
+            @*@Html.EditorFor(model => model.MeetingItemStatusId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MeetingItemStatusId, "", new { @class = "text-danger" })*@
+            @Html.DropDownList("Status", new List<SelectListItem> {
+                new SelectListItem { Text = "M1", Value = "OPEN" }               
+            }, "Select an option" ,new { @class = "form-control chosen-select" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="@Labels.Save" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink(Labels.BackToList, MVC.Meeting.Index())
+</div>
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(function () {
+
+           // $('#MeetingDate').datetimepicker();
+
+        });
+
+    </script>
+}
